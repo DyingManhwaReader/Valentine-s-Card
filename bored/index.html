@@ -299,7 +299,7 @@
             const place = document.getElementById('place').value;
             const anything = document.getElementById('anything').value;
 
-            fetch('/api/send-email', {
+            fetch('api/send-email.js', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ name, flowers, gifts, place, anything })
