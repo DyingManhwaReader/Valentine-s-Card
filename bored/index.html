@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Card by Jash</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init("pZpydD9m-LDTzR1Vt");
+        })();
+    </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef, #fecfef);
+            font-family: 'Arial', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .envelope {
+            background: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            text-align: center;
+            max-width: 400px;
+            cursor: pointer;
+            transition: transform 0.5s ease;
+        }
+        .envelope:hover {
+            transform: scale(1.05);
+        }
+        .envelope-icon {
+            font-size: 100px;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        .valentine-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            padding: 40px;
+            text-align: center;
+            max-width: 400px;
+            display: none;
+            animation: fadeIn 1s ease-in;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .heart {
+            font-size: 50px;
+            color: #e91e63;
+            margin-bottom: 20px;
+        }
+        .btn-custom {
+            margin: 10px;
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+        .response {
+            display: none;
+            margin-top: 20px;
+        }
+        .yes-response {
+            color: #4caf50;
+        }
+        .no-response {
+            color: #f44336;
+        }
+        .preferences {
+            display: none;
+            margin-top: 20px;
+        }
+        .scary-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: black;
+            display: none;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .scary-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            animation: scare 0.5s ease-in;
+        }
+        @keyframes scare {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+        .close-btn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: red;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        .footer-text {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #666;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .sweet-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 192, 203, 0.9);
+            display: none;
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+        }
+        .sweet-image {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: cover;
+            animation: sweet 0.5s ease-in;
+        }
+        @keyframes sweet {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="envelope" class="envelope">
+            <div class="envelope-icon">💌</div>
+            <h2>Click to Open Your Valentine Card</h2>
+        </div>
+        
+        <div id="valentineCard" class="valentine-card">
+            <div class="heart">❤️</div>
+            <div class="mb-3">
+                <label for="userName" class="form-label">Input your name below before clicking the choices:</label>
+                <input type="text" class="form-control" id="userName" name="userName" placeholder="Name" required>
+                <button id="confirmNameBtn" class="btn btn-primary btn-custom mt-2">Confirm Name</button>
+            </div>
+            <h1 id="valentineQuestion">Will You Be My Valentine?</h1>
+            <p>I've been thinking about you a lot, and I can't imagine spending Valentine's Day with anyone else. M4g S1l0s tLg4 4k0</p>
+            <button id="yesBtn" class="btn btn-success btn-custom">Yes! 💕</button>
+            <button id="noBtn" class="btn btn-danger btn-custom">No, sorry 😢</button>
+            
+            <div id="yesResponse" class="response yes-response">
+                <h2>Yay! 🎉</h2>
+                <p>I'm so happy! Let's make this Valentine's Day unforgettable.❤️</p>
+                <button id="sharePreferencesBtn" class="btn btn-primary btn-custom">Tell Me What You Like</button>
+            </div>
+            <div id="noResponse" class="response no-response">
+                <h2>DANG ITTTT! 😔</h2>
+                <p>That's okay, I understand. 🤝</p>
+            </div>
+            
+            <div id="preferences" class="preferences">
+                <h3>Share Your Favorites!</h3>
+                <form id="preferencesForm">
+                    <div class="mb-3">
+                        <label for="flowers" class="form-label">Favorite Flowers:</label>
+                        <input type="text" class="form-control" id="flowers" name="flowers" placeholder="e.g., Roses, Tulips">
+                    </div>
+                    <div class="mb-3">
+                        <label for="gifts" class="form-label">Favorite Gifts:</label>
+                        <input type="text" class="form-control" id="gifts" name="gifts" placeholder="e.g., Chocolate, Jewelry">
+                    </div>
+                    <div class="mb-3">
+                        <label for="place" class="form-label">Favorite Place:</label>
+                        <input type="text" class="form-control" id="place" name="place" placeholder="e.g., Beach, Park">
+                    </div>
+                    <div class="mb-3">
+                        <label for="anything" class="form-label">Anything Else You Love/Like:</label>
+                        <textarea class="form-control" id="anything" name="anything" rows="3" placeholder="Tell me more..."></textarea>
+                    </div>
+                    <button type="button" id="sendBtn" class="btn btn-success btn-custom">Send to Jash's Gmail</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div id="scaryOverlay" class="scary-overlay">
+        <img class="scary-image" src="hm/jeff.jpg" alt="Jeff the Killer">
+        <button class="close-btn" onclick="closeScary()">Close</button>
+    </div>
+    <div id="sweetOverlay" class="sweet-overlay">
+        <img class="sweet-image" src="hm/meme-cat-cat-meme.gif" alt="Happy Image">
+        <button class="close-btn" onclick="closeSweet()">Close</button>
+    </div>
+
+    <audio id="scarySound" preload="auto" loop>
+        <source src="hm/final_60108db6919bc200b087a3a2_239343.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="sweetSound" preload="auto" loop>  
+        <source src="hm/happy-happy-happy-song.mp3" type="audio/mpeg">
+    </audio>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('yesBtn').disabled = true;
+            document.getElementById('noBtn').disabled = true;
+        });
+        document.getElementById('envelope').addEventListener('click', function() {
+            document.getElementById('envelope').style.display = 'none';
+            document.getElementById('valentineCard').style.display = 'block';
+        });
+     document.getElementById('confirmNameBtn').addEventListener('click', function() {
+            const name = document.getElementById('userName').value.trim();
+            if (!name) {
+                alert('Please enter your name before confirming.');
+                return;
+            }
+            document.getElementById('userName').disabled = true;
+            document.getElementById('confirmNameBtn').style.display = 'none';
+            document.getElementById('valentineQuestion').textContent = `Will You Be My Valentine, ${name}?`;
+            document.getElementById('yesBtn').disabled = false;
+            document.getElementById('noBtn').disabled = false;
+        });
+
+        document.getElementById('yesBtn').addEventListener('click', function() {
+            document.getElementById('yesResponse').style.display = 'block';
+            document.getElementById('noResponse').style.display = 'none';
+        });
+
+        document.getElementById('noBtn').addEventListener('click', function() {
+            document.getElementById('noResponse').style.display = 'block';
+            document.getElementById('yesResponse').style.display = 'none';
+        });
+                document.getElementById('yesBtn').addEventListener('click', function() {
+            document.getElementById('yesResponse').style.display = 'block';
+            document.getElementById('noResponse').style.display = 'none';
+            document.getElementById('userName').disabled = true;
+            document.getElementById('sweetOverlay').style.display = 'flex';
+            const sound2 = document.getElementById('sweetSound');
+            sound2.play().catch(e => console.log('Audio play failed:', e));
+        });
+
+        document.getElementById('noBtn').addEventListener('click', function() {
+            document.getElementById('noResponse').style.display = 'block';
+            document.getElementById('yesResponse').style.display = 'none';
+            document.getElementById('userName').disabled = true; 
+            document.getElementById('scaryOverlay').style.display = 'flex';
+            const sound = document.getElementById('scarySound');
+            sound.play().catch(e => console.log('Audio play failed:', e));
+        });
+
+        document.getElementById('sharePreferencesBtn').addEventListener('click', function() {
+            document.getElementById('preferences').style.display = 'block';
+        });
+
+        document.getElementById('sendBtn').addEventListener('click', function() {
+            const name = document.getElementById('userName').value;
+            if (!name.trim()) {
+                alert('Please enter your name before sending.');
+                return;
+            }
+            const flowers = document.getElementById('flowers').value;
+            const gifts = document.getElementById('gifts').value;
+            const place = document.getElementById('place').value;
+            const anything = document.getElementById('anything').value;
+
+       
+            const message = `Favorite Flowers: ${flowers}\nFavorite Gifts: ${gifts}\nFavorite Place: ${place}\nAnything Else: ${anything}`;
+
+            const templateParams = {
+                name: name, 
+                time: new Date().toLocaleString(),
+                message: message 
+            };
+
+            emailjs.send('service_2muy7kf', 'template_w6ek85j', templateParams) 
+                .then(function(response) {
+                    alert('Preferences sent successfully!');
+                }, function(error) {
+                    alert('Failed to send. Please try again.');
+                    console.log('Error:', error); 
+                });
+        });
+        function closeScary() {
+            document.getElementById('scaryOverlay').style.display = 'none';
+            const sound = document.getElementById('scarySound');
+            sound.pause();
+            sound.currentTime = 0; 
+        }
+        function closeSweet() {
+            document.getElementById('sweetOverlay').style.display = 'none';
+            const sound = document.getElementById('sweetSound');
+            sound.pause();
+            sound.currentTime = 0; 
+        }
+    </script>
+</body>
+</html>
