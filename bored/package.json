@@ -1,0 +1,15 @@
+﻿{
+  "name": "bored",
+  "version": "1.0.0",
+  "description": "Valentine card app",
+  "scripts": {
+    "dev": "vercel dev",
+    "start": "vercel dev"
+  },
+  "dependencies": {
+    "@emailjs/nodejs": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
